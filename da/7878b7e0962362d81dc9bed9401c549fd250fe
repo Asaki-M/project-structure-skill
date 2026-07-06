@@ -1,0 +1,19 @@
+.gitignore
+  s_748bff9e577f77::t_66927adb5a4446 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "da7878b7e0962362d81dc9bed9401c549fd250fe",
+  "prompts": {},
+  "sessions": {
+    "s_748bff9e577f77": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3595-07be-7d70-947a-9c7e55cc9fab",
+        "model": "gpt-5.5"
+      },
+      "human_author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
