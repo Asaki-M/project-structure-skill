@@ -15,7 +15,7 @@ Use `--force` to overwrite an existing installed copy.
 
 ## Targets
 
-- Codex: `~/.agents/skills` or `.agents/skills`
+- Codex: `~/.codex/skills` or `.codex/skills`
 - Claude Code: `~/.claude/skills` or `.claude/skills`
 - OpenCode: `~/.config/opencode/skills` or `.opencode/skills`
 

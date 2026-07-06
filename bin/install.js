@@ -11,8 +11,8 @@ const sourceSkill = join(root, "skills", skillName);
 
 const targets = {
   codex: {
-    user: join(homedir(), ".agents", "skills"),
-    project: join(process.cwd(), ".agents", "skills")
+    user: join(homedir(), ".codex", "skills"),
+    project: join(process.cwd(), ".codex", "skills")
   },
   claude: {
     user: join(homedir(), ".claude", "skills"),
@@ -55,7 +55,7 @@ Options:
 Examples:
   npx project-structure-skill --agent codex
   pnpx project-structure-skill install --agent all --scope project --force
-  npx project-structure-skill --dir ~/.agents/skills --force
+  npx project-structure-skill --dir ~/.codex/skills --force
 `);
 }
 
