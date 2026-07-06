@@ -1,0 +1,21 @@
+README.md
+  s_de3faee882c017::t_51c2c8ebd26bc0 18
+bin/install.js
+  s_de3faee882c017::t_51c2c8ebd26bc0 14-15,58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c44a744a1d3b008cdcf11b99132f33c2fcaba95b",
+  "prompts": {},
+  "sessions": {
+    "s_de3faee882c017": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f36d1-584c-77c1-8f9a-56638c125b0f",
+        "model": "gpt-5.5"
+      },
+      "human_author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
