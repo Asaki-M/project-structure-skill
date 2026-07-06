@@ -1,0 +1,31 @@
+{
+  "name": "project-structure-skill",
+  "version": "0.1.0",
+  "description": "Cross-agent skill for placing files in the right module, package, or service layer.",
+  "type": "module",
+  "bin": {
+    "project-structure-skill": "./bin/install.js"
+  },
+  "files": [
+    "bin",
+    "skills"
+  ],
+  "scripts": {
+    "install:local": "node ./bin/install.js",
+    "validate": "node --check ./bin/install.js"
+  },
+  "keywords": [
+    "agent-skills",
+    "codex",
+    "claude-code",
+    "opencode",
+    "project-structure",
+    "file-organization",
+    "monorepo",
+    "skill"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

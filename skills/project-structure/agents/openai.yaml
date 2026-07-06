@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Structure"
+  short_description: "Keep files in the right project structure"
+  default_prompt: "Use $project-structure to place new files in the right module, package, or service layer."
