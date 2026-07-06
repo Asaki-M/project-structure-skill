@@ -1,0 +1,14 @@
+package.json
+  h_8d050896203f0f 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "16453cecbc6192154ddc5ce2f872b3b592b3df97",
+  "prompts": {},
+  "humans": {
+    "h_8d050896203f0f": {
+      "author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
