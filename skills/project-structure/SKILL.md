@@ -33,7 +33,7 @@ Prefer extending existing conventions over introducing new structure. Create a n
 - Use `kebab-case` for folder names, such as `user-list`.
 - Folder names must be obvious and descriptive enough that their purpose is clear at a glance.
 - Avoid vague folder names when a more specific feature or domain name is available.
-- If a file is already inside a `helper` folder, the file name may omit the `helper` prefix.
+- If a file is already inside a `helper` folder, the file name may omit the `helper` prefix or suffix.
 
 ## UI Components
 

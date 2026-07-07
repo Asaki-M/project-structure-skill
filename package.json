@@ -1,6 +1,6 @@
 {
   "name": "project-structure-skill",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Cross-agent skill for placing files in the right module, package, or service layer.",
   "type": "module",
   "bin": {
