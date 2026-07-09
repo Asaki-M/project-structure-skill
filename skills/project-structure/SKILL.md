@@ -77,6 +77,9 @@ Use these rules when working in a backend service, API package, worker package, 
 - Put third-party integration logic in `src/core/manager`. This includes calls to third-party APIs, third-party SDKs, external libraries, or external functions.
 - Put business logic in `src/core/service`. Service files should define the logic behind API operations and coordinate DAO, manager, and core functionality.
 - Put API route definitions in `src/core/router`. Router files should define routes and delegate business behavior to `src/core/service`.
+- Split `src/core/router` by API module or business domain when routes grow beyond a single small file. For example, use files such as `src/core/router/user.ts` and `src/core/router/order.ts` for user and order routes.
+- Aggregate router modules through `src/core/router/index.ts`, or through the repository's existing router entry file if one already exists. The aggregate should compose and export/register the module routers, while individual router files own their route definitions.
+- Keep router modules thin: validate request shape, map request/response details, and call services. Do not put business logic, database access, or third-party SDK calls directly in router files.
 - Put scheduled jobs in `src/cron`. Cron files should define recurring tasks and delegate reusable business behavior to services when possible.
 - Keep each layer focused: routers handle routing, services handle business logic, DAOs handle persistence, managers handle third-party integrations, and core contains internal reusable backend capabilities.
 

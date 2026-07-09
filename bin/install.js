@@ -41,8 +41,8 @@ Install the project-structure skill for Codex, Claude Code, or OpenCode.
 The skill helps agents place files in the right module, package, or service layer.
 
 Usage:
-  npx project-structure-skill [install] [options]
-  pnpx project-structure-skill [install] [options]
+  npx project-structure-skill [install|upgrade|update] [options]
+  pnpx project-structure-skill [install|upgrade|update] [options]
 
 Options:
   --agent <name>     codex, claude, opencode, or all (default: all)
@@ -55,6 +55,7 @@ Options:
 Examples:
   npx project-structure-skill --agent codex
   pnpx project-structure-skill install --agent all --scope project --force
+  npx project-structure-skill@latest upgrade --agent codex --scope user
   npx project-structure-skill --dir ~/.codex/skills --force
 `);
 }
@@ -69,7 +70,12 @@ function parseArgs(argv) {
   };
 
   const rest = [...argv];
-  if (rest[0] === "install") rest.shift();
+  if (["install", "upgrade", "update"].includes(rest[0])) {
+    if (rest[0] === "upgrade" || rest[0] === "update") {
+      args.force = true;
+    }
+    rest.shift();
+  }
 
   for (let i = 0; i < rest.length; i += 1) {
     const arg = rest[i];

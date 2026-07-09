@@ -13,6 +13,15 @@ pnpx project-structure-skill install --agent codex --scope project
 
 Use `--force` to overwrite an existing installed copy.
 
+## Upgrade
+
+```bash
+npx project-structure-skill@latest upgrade --agent codex --scope user
+pnpx project-structure-skill@latest upgrade --agent all --scope project
+```
+
+`upgrade` and `update` overwrite the existing installed skill with the bundled skill from the package version being run.
+
 ## Targets
 
 - Codex: `~/.codex/skills` or `.codex/skills`
