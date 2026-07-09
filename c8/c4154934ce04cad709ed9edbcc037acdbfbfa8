@@ -1,0 +1,30 @@
+package.json
+  h_8d050896203f0f 3
+README.md
+  s_7855a4f59304f6::t_4da2a29e37fd6b 16-24
+bin/install.js
+  s_7855a4f59304f6::t_2532c16129334d 44-45,58,73-78
+skills/project-structure/SKILL.md
+  s_7855a4f59304f6::t_e1f6a6f75a300b 80-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c8c4154934ce04cad709ed9edbcc037acdbfbfa8",
+  "prompts": {},
+  "humans": {
+    "h_8d050896203f0f": {
+      "author": "qinghuan <1041220793@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_7855a4f59304f6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f45da-ae43-73d2-a5fb-3441074dc958",
+        "model": "gpt-5.5"
+      },
+      "human_author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
