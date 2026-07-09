@@ -1,0 +1,27 @@
+skills/project-structure/SKILL.md
+  s_7868b6ace72d6e::t_e5b3e38f0b2f9c 60-61,65
+  s_7868b6ace72d6e::t_799f7aec775e30 20,46,52,85,91
+package.json
+  h_8d050896203f0f 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d53b0ccdd5866eadba0a8ce4ace9d77a1839e647",
+  "prompts": {},
+  "humans": {
+    "h_8d050896203f0f": {
+      "author": "qinghuan <1041220793@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_7868b6ace72d6e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f4604-2bb0-73f1-bd14-efa744bc18bc",
+        "model": "gpt-5.5"
+      },
+      "human_author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
