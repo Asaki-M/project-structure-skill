@@ -17,6 +17,7 @@ Prefer extending existing conventions over introducing new structure. Create a n
 - Follow the nearest existing convention first. These rules provide defaults only when the repository does not already define a clearer pattern.
 - Place files by ownership, not by file type alone. A file that only supports one feature or domain should live with that feature or domain.
 - Promote code to shared directories only after it is reused by multiple modules.
+- Do not let shared directories become catch-all buckets. When files grow across multiple concerns, split them by feature, domain, or concern instead of keeping unrelated code together.
 - Keep public entry points small and explicit.
 
 ## Workspace & Package Boundaries
@@ -42,11 +43,13 @@ Use these rules only when working in a frontend app, UI package, or frontend mod
 - Put reusable UI primitives in `src/components/ui`, such as `Input`, `Button`, and `Select`.
 - Put business-specific components in `src/components`, such as `UserList` and `PostList`.
 - If a component clearly belongs to a feature module, prefer placing it inside that module rather than promoting it to a global component directory.
+- When shared components grow across multiple concerns, split them by domain or component family, such as `src/components/forms`, `src/components/layout`, or `src/components/user`.
 
 ## Utils
 
 - Put shared utility functions in `src/utils`, such as `formatDate` and `getRandomColor`.
 - Group shared utilities by concern inside `src/utils`. For example, put date-related helpers in `src/utils/date.ts` and export them from that file.
+- When shared utilities grow beyond a few focused files, split them by concern or domain instead of adding unrelated helpers to a single `src/utils/index.ts`.
 - Put business-specific or module-specific utilities inside the owning module.
 - For example, if `src/memory` owns memory behavior, place memory utilities in `src/memory/utils`, such as `getMemory` and `setMemory`.
 - Do not put feature-only utilities in `src/utils` just because they are small.
@@ -54,9 +57,12 @@ Use these rules only when working in a frontend app, UI package, or frontend mod
 ## Types
 
 - Put shared type definitions in `src/types`, such as `User` and `Post`.
+- Do not use `src/types` as a catch-all for every type in the project.
+- When shared types grow across multiple concerns, split them by domain or concern, such as `src/types/user.ts`, `src/types/post.ts`, or `src/types/api.ts`.
 - Put business-specific or module-specific types inside the owning module.
 - For example, if `src/memory` owns memory behavior, place memory types in `src/memory/types`, such as `Memory` and `MemoryItem`.
 - Do not promote module-only types to `src/types` unless they are reused across multiple modules.
+- Avoid large monolithic type files such as `src/types/index.ts` that define unrelated domains; use index files only to re-export focused type modules when the repository already follows that pattern.
 
 ## Feature Modules
 
@@ -76,11 +82,13 @@ Use these rules when working in a backend service, API package, worker package, 
 - Put database model/type definitions in `src/core/dao/models` when they are needed. This applies to relational databases, document databases, caches, and other persistence layers such as MySQL, MongoDB, and Redis.
 - Put third-party integration logic in `src/core/manager`. This includes calls to third-party APIs, third-party SDKs, external libraries, or external functions.
 - Put business logic in `src/core/service`. Service files should define the logic behind API operations and coordinate DAO, manager, and core functionality.
+- Split `src/core/service` by API module or business domain when service logic grows beyond a single small file. For example, use files such as `src/core/service/user.ts` and `src/core/service/order.ts`.
 - Put API route definitions in `src/core/router`. Router files should define routes and delegate business behavior to `src/core/service`.
 - Split `src/core/router` by API module or business domain when routes grow beyond a single small file. For example, use files such as `src/core/router/user.ts` and `src/core/router/order.ts` for user and order routes.
 - Aggregate router modules through `src/core/router/index.ts`, or through the repository's existing router entry file if one already exists. The aggregate should compose and export/register the module routers, while individual router files own their route definitions.
 - Keep router modules thin: validate request shape, map request/response details, and call services. Do not put business logic, database access, or third-party SDK calls directly in router files.
 - Put scheduled jobs in `src/cron`. Cron files should define recurring tasks and delegate reusable business behavior to services when possible.
+- Split `src/core/dao`, `src/core/manager`, and `src/cron` by domain, integration, or job family when they grow across multiple concerns.
 - Keep each layer focused: routers handle routing, services handle business logic, DAOs handle persistence, managers handle third-party integrations, and core contains internal reusable backend capabilities.
 
 ## Before Creating New Structure
