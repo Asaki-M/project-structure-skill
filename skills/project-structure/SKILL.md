@@ -34,7 +34,9 @@ Prefer extending existing conventions over introducing new structure. Create a n
 - Use `kebab-case` for folder names, such as `user-list`.
 - Folder names must be obvious and descriptive enough that their purpose is clear at a glance.
 - Avoid vague folder names when a more specific feature or domain name is available.
-- If a file is already inside a `helper` folder, the file name may omit the `helper` prefix or suffix.
+- Avoid repeating the parent directory's meaning in child file names when the directory already provides that context.
+- For example, prefer `steps/a.ts` and `steps/b.ts` over `steps/a-step.ts` or `steps/step-b.ts`.
+- Apply the same rule to directories such as `helpers`, `utils`, `types`, `services`, `routes`, and `components`, unless the repeated term is necessary to avoid ambiguity or match an established nearby convention.
 
 ## UI Components
 
