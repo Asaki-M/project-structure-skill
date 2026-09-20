@@ -1,0 +1,28 @@
+skills/project-structure/SKILL.md
+  s_38c15461c3ed68::t_eb2c6b3aca8f76 3,80-161
+skills/project-structure/agents/openai.yaml
+  s_38c15461c3ed68::t_eb2c6b3aca8f76 4
+package.json
+  h_8d050896203f0f 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "36ff8b256010f940455bdc399852a6e4e16b769c",
+  "prompts": {},
+  "humans": {
+    "h_8d050896203f0f": {
+      "author": "qinghuan <1041220793@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_38c15461c3ed68": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0bcf8-a065-7c21-b9d5-f667e7c7fd66",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "qinghuan <1041220793@qq.com>"
+    }
+  }
+}
