@@ -1,4 +1,4 @@
 interface:
   display_name: "Project Structure"
   short_description: "Keep files in the right project structure"
-  default_prompt: "Use $project-structure to place new files in the right module, package, or service layer."
+  default_prompt: "Use $project-structure to place files in their owning module or package. Follow existing conventions; for backend code, keep HTTP/API logic in core and independent capabilities such as LLM and RAG outside core."

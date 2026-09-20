@@ -1,6 +1,6 @@
 ---
 name: project-structure
-description: Use this skill whenever creating, moving, refactoring, or organizing project files and directories in frontend apps, backend services, libraries, or full-stack projects. It prevents messy AI-generated folder structures by forcing the agent to inspect existing conventions, place code near the owning feature or domain, avoid duplicate directories, and explain any unavoidable new directory before creating it. Trigger for tasks involving project structure, file placement, new components, hooks, routes, controllers, services, repositories, API modules, refactors, and feature modules.
+description: Use this skill whenever creating, moving, refactoring, or organizing project files and directories in frontend apps, backend services, libraries, or full-stack projects. Inspect existing conventions, place code near its owning feature or domain, avoid duplicate directories, and explain unavoidable new directories before creating them. For backend projects, keep the HTTP/API layer in core and independent capabilities such as LLM, RAG, memory, and tools outside core. Trigger for project structure, file placement, components, hooks, routes, services, persistence, integrations, API modules, refactors, and feature modules.
 ---
 
 # Project Structure
@@ -77,21 +77,88 @@ Use these rules only when working in a frontend app, UI package, or frontend mod
 
 ## Backend Services
 
-Use these rules when working in a backend service, API package, worker package, or server-side module.
+Use these rules when working in a backend service, API package, worker package, or server-side application. Follow existing repository conventions first; these paths are defaults within the owning app or package. Create only the directories the application needs. A worker without HTTP APIs does not need a router or middleware layer.
 
-- Put core backend capabilities in `src/core`.
-- Put database connections and database access functions in `src/core/dao`.
-- Put database model/type definitions in `src/core/dao/models` when they are needed. This applies to relational databases, document databases, caches, and other persistence layers such as MySQL, MongoDB, and Redis.
-- Put third-party integration logic in `src/core/manager`. This includes calls to third-party APIs, third-party SDKs, external libraries, or external functions.
-- Put business logic in `src/core/service`. Service files should define the logic behind API operations and coordinate DAO, manager, and core functionality.
-- Split `src/core/service` by API module or business domain when service logic grows beyond a single small file. For example, use files such as `src/core/service/user.ts` and `src/core/service/order.ts`.
-- Put API route definitions in `src/core/router`. Router files should define routes and delegate business behavior to `src/core/service`.
-- Split `src/core/router` by API module or business domain when routes grow beyond a single small file. For example, use files such as `src/core/router/user.ts` and `src/core/router/order.ts` for user and order routes.
-- Aggregate router modules through `src/core/router/index.ts`, or through the repository's existing router entry file if one already exists. The aggregate should compose and export/register the module routers, while individual router files own their route definitions.
-- Keep router modules thin: validate request shape, map request/response details, and call services. Do not put business logic, database access, or third-party SDK calls directly in router files.
-- Put scheduled jobs in `src/cron`. Cron files should define recurring tasks and delegate reusable business behavior to services when possible.
-- Split `src/core/dao`, `src/core/manager`, and `src/cron` by domain, integration, or job family when they grow across multiple concerns.
-- Keep each layer focused: routers handle routing, services handle business logic, DAOs handle persistence, managers handle third-party integrations, and core contains internal reusable backend capabilities.
+### Core HTTP/API Layer
+
+- Use `src/core` for the application's HTTP/API layer and the business logic directly supporting it: routing, API services, persistence access, and HTTP middleware.
+- Do not treat `src/core` as a catch-all for every backend capability.
+- Keep independent capabilities such as LLM, RAG, Agent, memory, tools, search, messaging, and storage outside `src/core` when they have clear ownership and their own internal structure.
+- Services may consume those modules; using a capability from an HTTP API does not make it part of `core`.
+
+For example, an application with LLM and RAG capabilities may use:
+
+```text
+src/
+├── core/
+│   ├── router/
+│   ├── service/
+│   ├── dao/
+│   │   └── models/
+│   └── middleware/
+├── llm/
+├── rag/
+├── memory/
+├── tools/
+├── cron/
+└── index.ts
+```
+
+### Router
+
+- Put HTTP route definitions in `src/core/router`.
+- Router files own paths, methods, route grouping, middleware registration, basic transport-level request extraction, and delegation to services. They send the response data returned by services through the HTTP framework.
+- Keep routers thin. Do not put business workflows, database queries, LLM calls, or complex data processing in router files.
+- Split routers by API module or business domain, such as `src/core/router/user.ts`, `knowledge.ts`, and `chat.ts`.
+- Aggregate and register module routers through `src/core/router/index.ts`, or the repository's existing router entry file.
+
+### Service
+
+- Put API operation logic in `src/core/service`, grouped by API module or business domain, such as `user.ts`, `knowledge.ts`, and `chat.ts`.
+- Services own input parameter processing and normalization, business validation, business workflows, and operation-specific errors and result states.
+- Services coordinate DAO operations, independent capability modules such as `llm`, `rag`, `memory`, and `tools`, and external integrations as needed.
+- Services also transform internal results into API response data. Keep parameter processing, business logic, and response data transformation together when they belong to the same API operation.
+- Avoid introducing controller, handler, use-case, DTO, mapper, or response layers for simple operations unless the repository already uses them or the complexity requires them.
+- When a service grows too large, split it by business capability or API domain instead of creating generic helper buckets.
+
+### DAO
+
+- Put database connection initialization and persistence access in `src/core/dao`. This includes queries, CRUD operations, transactions, record mapping, and caches used as data stores, such as MySQL, MongoDB, and Redis.
+- Keep DAOs focused on persistence; do not put HTTP request handling or business workflows in DAO files.
+- Split DAOs by database, domain, aggregate, or data source when needed, such as `src/core/dao/user.ts`, `knowledge.ts`, `mysql.ts`, or `redis.ts`.
+- Put persistence-specific models and database record types in `src/core/dao/models` when needed. Keep general business types with their owning domain; being stored in a database does not make a type persistence-specific.
+
+### Middleware
+
+- Put HTTP-specific middleware in `src/core/middleware` when a dedicated directory is needed, such as `auth.ts`, `error-handler.ts`, `request-id.ts`, and `logging.ts`.
+- Middleware owns transport-level and cross-cutting HTTP concerns. Keep domain business logic in services or capability modules.
+
+### Capability Modules & Third-Party Integrations
+
+- Put substantial capabilities that can exist independently of HTTP in clearly named modules such as `src/llm`, `src/rag`, `src/agent`, `src/memory`, `src/tools`, `src/search`, `src/queue`, or `src/storage`.
+- Keep each capability's implementation, types, utilities, and submodules within its owner. For example, `src/rag` may contain `embedding`, `retrieval`, and `rerank`; `src/llm` may contain provider implementations and its own types.
+- Place third-party SDK and API integrations with the capability or domain that owns them, such as `src/llm/openai.ts`, `src/llm/anthropic.ts`, `src/storage/s3.ts`, or `src/search/elasticsearch.ts`.
+- Do not automatically collect integrations in `src/core/manager`. Preserve an existing manager layer only when the repository gives it a clear responsibility.
+- An integration shared across unrelated capabilities may have its own clearly named module when it contains meaningful logic. Avoid generic root directories such as `manager`, `adapter`, `provider`, or `integration` unless the repository already defines their architectural role.
+
+### Scheduled Jobs
+
+- Put scheduled task entry points in `src/cron`, such as `cleanup.ts`, `sync-knowledge.ts`, or `refresh-index.ts`, and split them by job family when needed.
+- Cron files own scheduling and task entry behavior. Reuse business workflows from the owning service or capability module instead of duplicating them in cron files.
+
+### Dependency Direction
+
+Prefer dependencies from the application boundary toward services, persistence, and independent capabilities:
+
+```text
+router → service → dao
+                 → llm / rag / memory / tools
+cron → owning service or capability module
+```
+
+- Capability modules may depend on lower-level libraries and persistence access when needed, but should not depend on HTTP routers or handlers.
+- DAOs should not depend on services. Keep API orchestration in services and capability internals in their owning modules.
+- Prefer the smallest structure that clearly expresses ownership and dependency direction. Do not create extra layers or scaffold every example directory in advance.
 
 ## Before Creating New Structure
 
